@@ -24,14 +24,19 @@ async function main() {
     if (file.indexOf('gameday') < 0) {
       continue;
     }
+
     const fileContents = await readFile(file);
 
-    console.info('parsea skrá', file);
+    // console.info('skrá', file);
     if (!fileContents) {
       continue;
     }
 
     const parsed = parseGameday(fileContents);
+    
+    if (!parsed) {
+      continue;
+    }
 
     data.push(parsed);
   }

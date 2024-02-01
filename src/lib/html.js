@@ -38,13 +38,29 @@ export function stadaTemplate(standings) {
   return template(title, body);
 }
 
-export function leikirTemplate(games) {
+export function leikirTemplate(data) {
   const title = 'Boltadeildin—leikir!';
-  const gamesHtml = games.toString();
+
+  // Búum til array til að geyma upplýsingarnar
+  const allGamesList = data.map(dataElement => {
+    const {games} = dataElement;
+    const {date} = dataElement;
+
+    const gamesList = games.map(game => {
+      const homeTeam = game.home.name;
+      const awayTeam = game.away.name;
+      const gameName = `Date: ${date} | Game: ${homeTeam} vs. ${awayTeam}`;
+      return `<ul>${gameName}</ul>`;
+    }).join('');
+
+    return `<ul>${gamesList}</ul>`;
+  }).join('');
+
   const body = /* html */ `
-  <section>
-  <h1>Leikir seinust vikna</h1>
-    ${gamesHtml}
-  </section>`;
+    <section>
+      <h1>Leikir seinust vikna</h1>
+      ${allGamesList}
+    </section>`;
+
   return template(title, body);
 }
